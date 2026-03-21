@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termini di Servizio — Randajo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --midnight: #171520;
+      --ink:      #140E1C;
+      --gold:     #C8901A;
+      --cream:    #F4ECD6;
+      --smoke:    #686058;
+      --dust:     #9E8E7A;
+      --denim:    #384868;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--midnight);
+      color: var(--cream);
+      font-family: 'Special Elite', serif;
+      line-height: 1.8;
+    }
+
+    .stripe {
+      width: 100%;
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--cream) 0px, var(--cream) 7px,
+        var(--midnight) 7px, var(--midnight) 14px
+      );
+      opacity: 0.15;
+    }
+
+    header {
+      padding: 40px 24px 32px;
+      border-bottom: 1px solid rgba(56,72,104,0.4);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    header a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    header span {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--smoke);
+      text-transform: uppercase;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      letter-spacing: 0.08em;
+      color: var(--cream);
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--smoke);
+      margin-bottom: 48px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-top: 48px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(56,72,104,0.4);
+    }
+
+    h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--dust);
+      text-transform: uppercase;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    p { color: var(--cream); margin-bottom: 14px; font-size: 15px; }
+
+    ul {
+      margin: 0 0 14px 0;
+      padding-left: 20px;
+    }
+
+    ul li {
+      color: var(--cream);
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    ul li strong { color: var(--gold); }
+
+    .warning {
+      background: rgba(200,144,26,0.08);
+      border: 1px solid rgba(200,144,26,0.3);
+      border-radius: 4px;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .warning strong {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    a { color: var(--gold); }
+
+    .contact-block {
+      margin-top: 48px;
+      padding: 24px;
+      border: 1px solid rgba(56,72,104,0.5);
+      border-radius: 4px;
+      background: var(--ink);
+    }
+
+    .contact-block p { margin-bottom: 6px; }
+
+    footer {
+      padding: 32px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(56,72,104,0.3);
+    }
+
+    footer nav {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+
+    footer a {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--smoke);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--gold); }
+
+    footer p {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--denim);
+    }
+  </style>
+</head>
+<body>
+  <div class="stripe"></div>
+
+  <header>
+    <a href="/">RANDAJO</a>
+    <span>/ Termini di Servizio</span>
+  </header>
+
+  <main>
+    <div class="page-title">Termini di Servizio</div>
+    <div class="meta">Ultimo aggiornamento: Marzo 2026 &nbsp;·&nbsp; Randajo App &nbsp;·&nbsp; support@randajo.app</div>
+
+    <h2>1. Accettazione dei termini</h2>
+    <p>Utilizzando Randajo ("l'App") accetti integralmente i presenti Termini di Servizio. Se non accetti questi termini, non puoi utilizzare l'App.</p>
+    <p>L'App è destinata a utenti di età pari o superiore ai 16 anni residenti nell'Unione Europea e nel resto del mondo.</p>
+
+    <h2>2. Il servizio</h2>
+    <p>Randajo è un'applicazione mobile per motociclisti che offre:</p>
+    <ul>
+      <li>Navigazione GPS con profili di percorso dedicati alle moto</li>
+      <li>Tracciamento e salvataggio dei ride</li>
+      <li>Passaporto Alpino con timbri per passi e luoghi iconici</li>
+      <li>Funzionalità social: crew, moto club, condivisione percorsi</li>
+      <li>Importazione percorsi GPX</li>
+      <li>Patch e badge di progressione</li>
+    </ul>
+    <p>Il servizio è fornito "così com'è". Ci riserviamo il diritto di modificare, sospendere o interrompere qualsiasi funzionalità in qualsiasi momento.</p>
+
+    <h2>3. Account utente</h2>
+    <h3>3.1 Registrazione</h3>
+    <p>Per utilizzare le funzionalità complete dell'App è necessario creare un account. Ti impegni a fornire informazioni accurate e a mantenerle aggiornate.</p>
+    <h3>3.2 Sicurezza</h3>
+    <p>Sei responsabile della riservatezza delle tue credenziali di accesso e di tutte le attività che avvengono sotto il tuo account.</p>
+    <h3>3.3 Uso consentito</h3>
+    <p>Il tuo account è personale e non cedibile. Non puoi creare account per conto di altri senza autorizzazione.</p>
+
+    <h2>4. Condotta dell'utente</h2>
+    <p>Utilizzando l'App ti impegni a non:</p>
+    <ul>
+      <li>Pubblicare contenuti illegali, offensivi, diffamatori, violenti o che violino diritti di terzi</li>
+      <li>Molestare, minacciare o danneggiare altri utenti</li>
+      <li>Utilizzare l'App per attività commerciali non autorizzate</li>
+      <li>Tentare di accedere a sistemi o dati non autorizzati</li>
+      <li>Aggirare misure di sicurezza o limitazioni del servizio</li>
+      <li>Creare account falsi o impersonare altri utenti</li>
+      <li>Caricare malware, virus o codice dannoso</li>
+    </ul>
+
+    <h2>5. Contenuti generati dall'utente</h2>
+    <h3>5.1 Proprietà</h3>
+    <p>Mantieni la proprietà di tutti i contenuti che carichi sull'App (percorsi, foto, messaggi nelle crew).</p>
+    <h3>5.2 Licenza</h3>
+    <p>Caricando contenuti concedi a Randajo una licenza non esclusiva, royalty-free, per utilizzare, visualizzare e distribuire tali contenuti nell'ambito del servizio. Questa licenza termina quando elimini il contenuto o il tuo account.</p>
+    <h3>5.3 Responsabilità</h3>
+    <p>Sei l'unico responsabile dei contenuti che pubblichi.</p>
+
+    <h2>6. Sicurezza stradale</h2>
+    <div class="warning">
+      <strong>⚠ Avviso importante</strong>
+      Randajo è progettata per supportare la pianificazione dei percorsi, non per distrarre dalla guida. Non utilizzare l'App manualmente mentre sei in movimento. Rispetta sempre il Codice della Strada. Randajo non si assume alcuna responsabilità per incidenti, danni o infrazioni derivanti dall'uso dell'App durante la guida.
+    </div>
+
+    <h2>7. Accuratezza delle informazioni</h2>
+    <p>I percorsi calcolati da Randajo sono basati su dati cartografici di terze parti (OpenStreetMap, Mapbox) che potrebbero non essere aggiornati o accurati. Non garantiamo l'accuratezza, la completezza o l'aggiornamento delle informazioni cartografiche.</p>
+
+    <h2>8. Abbonamenti e pagamenti (Piano Pro)</h2>
+    <h3>8.1 Piano gratuito</h3>
+    <p>Il piano gratuito offre funzionalità di base con limitazioni (es. numero massimo di percorsi salvati).</p>
+    <h3>8.2 Piano Pro</h3>
+    <p>Il Piano Pro offre funzionalità aggiuntive a pagamento. I prezzi sono indicati nell'App al momento dell'acquisto.</p>
+    <h3>8.3 Acquisti in-app</h3>
+    <p>Gli acquisti vengono processati tramite Apple App Store. Si applicano i termini e le condizioni di Apple.</p>
+    <h3>8.4 Rimborsi</h3>
+    <p>I rimborsi sono soggetti alle politiche di Apple. Puoi richiedere un rimborso direttamente tramite Apple entro 14 giorni dall'acquisto.</p>
+    <h3>8.5 Cancellazione</h3>
+    <p>Puoi cancellare l'abbonamento Pro in qualsiasi momento dalle impostazioni del tuo account Apple. La cancellazione è efficace alla fine del periodo di fatturazione corrente.</p>
+
+    <h2>9. Proprietà intellettuale</h2>
+    <p>Tutti i contenuti dell'App — inclusi design, loghi, testi, icone, mappe personalizzate e il nome "Randajo" — sono di proprietà di Randajo App o dei rispettivi titolari e sono protetti da copyright e altri diritti di proprietà intellettuale.</p>
+
+    <h2>10. Limitazione di responsabilità</h2>
+    <p>Nei limiti consentiti dalla legge applicabile, Randajo App non è responsabile per danni diretti o indiretti derivanti dall'uso dell'App, perdita di dati, informazioni cartografiche inaccurate, interruzioni del servizio, o incidenti occorsi durante l'uso dell'App in moto.</p>
+    <p>La responsabilità massima di Randajo App è limitata all'importo pagato per l'abbonamento negli ultimi 12 mesi.</p>
+
+    <h2>11. Legge applicabile e foro competente</h2>
+    <p>I presenti Termini sono regolati dalla legge italiana. Per qualsiasi controversia è competente il Tribunale del domicilio del consumatore.</p>
+
+    <h2>12. Modifiche ai termini</h2>
+    <p>Ci riserviamo il diritto di modificare questi Termini in qualsiasi momento. In caso di modifiche sostanziali ti notificheremo con almeno 15 giorni di preavviso tramite l'App o via email.</p>
+
+    <h2>13. Cessazione del servizio</h2>
+    <p>Puoi richiedere la cancellazione del tuo account in qualsiasi momento scrivendo a <a href="mailto:support@randajo.app">support@randajo.app</a>.</p>
+
+    <div class="contact-block">
+      <h2 style="margin-top:0; border:none; padding:0; font-size:18px;">14. Contatti</h2>
+      <p><strong>Email generale:</strong> <a href="mailto:support@randajo.app">support@randajo.app</a></p>
+      <p><strong>Email privacy:</strong> <a href="mailto:privacy@randajo.app">privacy@randajo.app</a></p>
+      <p><strong>Sito web:</strong> <a href="https://randajo.app">randajo.app</a></p>
+    </div>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Termini di Servizio</a>
+    </nav>
+    <p>&copy; 2026 Randajo App</p>
+  </footer>
+
+  <div class="stripe"></div>
+</body>
+</html>

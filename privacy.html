@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Randajo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --midnight: #171520;
+      --ink:      #140E1C;
+      --gold:     #C8901A;
+      --cream:    #F4ECD6;
+      --smoke:    #686058;
+      --dust:     #9E8E7A;
+      --denim:    #384868;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--midnight);
+      color: var(--cream);
+      font-family: 'Special Elite', serif;
+      line-height: 1.8;
+    }
+
+    .stripe {
+      width: 100%;
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--cream) 0px, var(--cream) 7px,
+        var(--midnight) 7px, var(--midnight) 14px
+      );
+      opacity: 0.15;
+    }
+
+    header {
+      padding: 40px 24px 32px;
+      border-bottom: 1px solid rgba(56,72,104,0.4);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    header a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    header span {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--smoke);
+      text-transform: uppercase;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      letter-spacing: 0.08em;
+      color: var(--cream);
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--smoke);
+      margin-bottom: 48px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-top: 48px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(56,72,104,0.4);
+    }
+
+    h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--dust);
+      text-transform: uppercase;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    p { color: var(--cream); margin-bottom: 14px; font-size: 15px; }
+
+    ul {
+      margin: 0 0 14px 0;
+      padding-left: 20px;
+    }
+
+    ul li {
+      color: var(--cream);
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    ul li strong {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 13px;
+    }
+
+    th {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--smoke);
+      text-transform: uppercase;
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--denim);
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(56,72,104,0.25);
+      color: var(--cream);
+      vertical-align: top;
+    }
+
+    a { color: var(--gold); }
+
+    .contact-block {
+      margin-top: 48px;
+      padding: 24px;
+      border: 1px solid rgba(56,72,104,0.5);
+      border-radius: 4px;
+      background: var(--ink);
+    }
+
+    .contact-block p { margin-bottom: 4px; }
+
+    footer {
+      padding: 32px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(56,72,104,0.3);
+    }
+
+    footer nav {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+
+    footer a {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--smoke);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--gold); }
+
+    footer p {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--denim);
+    }
+  </style>
+</head>
+<body>
+  <div class="stripe"></div>
+
+  <header>
+    <a href="/">RANDAJO</a>
+    <span>/ Privacy Policy</span>
+  </header>
+
+  <main>
+    <div class="page-title">Privacy Policy</div>
+    <div class="meta">Ultimo aggiornamento: Marzo 2026 &nbsp;·&nbsp; Randajo App &nbsp;·&nbsp; privacy@randajo.app</div>
+
+    <h2>1. Introduzione</h2>
+    <p>Randajo ("l'App") è un'applicazione mobile per motociclisti che offre navigazione, tracciamento percorsi e funzionalità social. Questa Privacy Policy descrive come raccogliamo, utilizziamo e proteggiamo i tuoi dati personali in conformità al Regolamento Generale sulla Protezione dei Dati (GDPR – Regolamento UE 2016/679) e alla normativa italiana applicabile.</p>
+    <p>Utilizzando l'App accetti le pratiche descritte in questa informativa.</p>
+
+    <h2>2. Dati raccolti</h2>
+    <h3>2.1 Dati forniti direttamente dall'utente</h3>
+    <ul>
+      <li><strong>Account:</strong> indirizzo email, username, nome visualizzato, foto profilo, biografia, zona geografica</li>
+      <li><strong>Profilo:</strong> moto possedute, stile di guida preferito, preferenze di navigazione</li>
+      <li><strong>Contenuti:</strong> percorsi salvati, luoghi salvati, messaggi nelle crew e nei moto club, reazioni ai post</li>
+    </ul>
+
+    <h3>2.2 Dati raccolti automaticamente</h3>
+    <ul>
+      <li><strong>Dati di localizzazione GPS:</strong> raccolti durante la navigazione attiva e la registrazione del ride, con frequenza di circa ogni 5–20 secondi. La raccolta avviene <strong>solo quando l'app è in uso attivo</strong> e hai avviato esplicitamente la registrazione</li>
+      <li><strong>Dati di utilizzo:</strong> percorsi calcolati, timbri del Passaporto conquistati, distanze percorse, durata dei ride</li>
+      <li><strong>Dati tecnici:</strong> tipo di dispositivo, versione del sistema operativo, identificativi anonimi dell'app</li>
+    </ul>
+
+    <h3>2.3 Dati di terze parti</h3>
+    <ul>
+      <li><strong>Mapbox:</strong> utilizziamo Mapbox per la visualizzazione delle mappe e il geocoding. <a href="https://www.mapbox.com/legal/privacy" target="_blank">Privacy Policy Mapbox</a></li>
+      <li><strong>Supabase:</strong> i tuoi dati sono archiviati su Supabase, un servizio cloud con infrastruttura in Europa. <a href="https://supabase.com/privacy" target="_blank">Privacy Policy Supabase</a></li>
+    </ul>
+
+    <h2>3. Finalità del trattamento</h2>
+    <p>Utilizziamo i tuoi dati per:</p>
+    <ul>
+      <li><strong>Erogare il servizio:</strong> navigazione, calcolo percorsi, gestione account, Passaporto Alpino</li>
+      <li><strong>Funzionalità social:</strong> crew, moto club, feed, condivisione percorsi, ricerca rider</li>
+      <li><strong>Miglioramento del servizio:</strong> analisi aggregate e anonime dell'utilizzo dell'app</li>
+      <li><strong>Sicurezza:</strong> prevenzione di abusi, spam e attività fraudolente</li>
+      <li><strong>Comunicazioni di servizio:</strong> notifiche relative al tuo account</li>
+    </ul>
+    <p>Non utilizziamo i tuoi dati per pubblicità profilata. Randajo non vende dati a terzi.</p>
+
+    <h2>4. Base giuridica del trattamento</h2>
+    <table>
+      <thead>
+        <tr><th>Finalità</th><th>Base giuridica</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Erogazione del servizio</td><td>Esecuzione del contratto (Art. 6.1.b GDPR)</td></tr>
+        <tr><td>Dati GPS durante la navigazione</td><td>Consenso esplicito (Art. 6.1.a GDPR)</td></tr>
+        <tr><td>Miglioramento del servizio</td><td>Legittimo interesse (Art. 6.1.f GDPR)</td></tr>
+        <tr><td>Sicurezza</td><td>Legittimo interesse (Art. 6.1.f GDPR)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>5. Dati di localizzazione</h2>
+    <ul>
+      <li>La raccolta GPS è <strong>opt-in</strong> — avviene solo quando premi esplicitamente il tasto di registrazione ride</li>
+      <li>I dati GPS non vengono mai condivisi con terzi in forma identificabile</li>
+      <li>Puoi eliminare qualsiasi sessione di ride registrata dall'App in qualsiasi momento</li>
+      <li>Su iOS, l'app richiede il permesso "Quando in uso" — non utilizziamo la localizzazione in background senza consenso esplicito</li>
+    </ul>
+
+    <h2>6. Conservazione dei dati</h2>
+    <ul>
+      <li><strong>Dati account:</strong> conservati finché mantieni un account attivo</li>
+      <li><strong>Sessioni di ride:</strong> conservate finché non le elimini manualmente</li>
+      <li><strong>Percorsi salvati:</strong> conservati finché non li elimini manualmente</li>
+      <li><strong>Log tecnici:</strong> eliminati automaticamente dopo 90 giorni</li>
+      <li><strong>Dati account eliminato:</strong> eliminati entro 30 giorni dalla richiesta di cancellazione</li>
+    </ul>
+
+    <h2>7. Condivisione dei dati</h2>
+    <p>I tuoi dati personali non vengono venduti né ceduti a terzi. Li condividiamo solo con:</p>
+    <ul>
+      <li><strong>Fornitori di servizi:</strong> Supabase, Mapbox, Apple — esclusivamente per erogare il servizio</li>
+      <li><strong>Autorità competenti:</strong> solo se obbligati per legge o ordine dell'autorità giudiziaria</li>
+    </ul>
+
+    <h2>8. I tuoi diritti (GDPR)</h2>
+    <ul>
+      <li><strong>Accesso:</strong> richiedere una copia dei tuoi dati personali</li>
+      <li><strong>Rettifica:</strong> correggere dati inesatti o incompleti</li>
+      <li><strong>Cancellazione:</strong> richiedere l'eliminazione del tuo account e dei dati associati</li>
+      <li><strong>Portabilità:</strong> ricevere i tuoi dati in formato strutturato e leggibile da macchina</li>
+      <li><strong>Opposizione:</strong> opporti al trattamento basato su legittimo interesse</li>
+      <li><strong>Revoca del consenso:</strong> revocare il consenso al trattamento GPS dalle impostazioni del dispositivo</li>
+    </ul>
+    <p>Per esercitare questi diritti scrivi a <a href="mailto:privacy@randajo.app">privacy@randajo.app</a>. Risponderemo entro 30 giorni.</p>
+
+    <h2>9. Sicurezza</h2>
+    <p>I dati sono trasmessi via connessioni cifrate (HTTPS/TLS). Le password sono sottoposte ad hashing e non sono mai accessibili in chiaro.</p>
+
+    <h2>10. Minori</h2>
+    <p>Randajo non è destinata a utenti di età inferiore ai 16 anni. Se ritieni che un minore abbia creato un account, contattaci a <a href="mailto:privacy@randajo.app">privacy@randajo.app</a>.</p>
+
+    <h2>11. Modifiche a questa Policy</h2>
+    <p>Ci riserviamo il diritto di aggiornare questa Privacy Policy. In caso di modifiche sostanziali ti notificheremo tramite l'App o via email.</p>
+
+    <div class="contact-block">
+      <h2 style="margin-top:0; border:none; padding:0; font-size:18px;">12. Contatti e reclami</h2>
+      <p><strong>Titolare del trattamento:</strong> Randajo App</p>
+      <p><strong>Email:</strong> <a href="mailto:privacy@randajo.app">privacy@randajo.app</a></p>
+      <p style="margin-top:12px; color: var(--smoke); font-size:13px;">Hai il diritto di presentare reclamo al Garante per la Protezione dei Dati Personali (<a href="https://www.garanteprivacy.it" target="_blank">garanteprivacy.it</a>) se ritieni che il trattamento dei tuoi dati violi il GDPR.</p>
+    </div>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Termini di Servizio</a>
+    </nav>
+    <p>&copy; 2026 Randajo App</p>
+  </footer>
+
+  <div class="stripe"></div>
+</body>
+</html>

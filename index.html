@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RANDAJO — Ride Your Way</title>
+  <meta name="description" content="Randajo è l'app per motociclisti che vogliono andare dove vogliono, come vogliono." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --midnight: #171520;
+      --ink:      #140E1C;
+      --gold:     #C8901A;
+      --gold2:    #A07010;
+      --cream:    #F4ECD6;
+      --smoke:    #686058;
+      --dust:     #9E8E7A;
+      --denim:    #384868;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--midnight);
+      color: var(--cream);
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Prison stripe */
+    .stripe {
+      width: 100%;
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--cream) 0px, var(--cream) 7px,
+        var(--midnight) 7px, var(--midnight) 14px
+      );
+      opacity: 0.15;
+    }
+
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 12px);
+      padding: 40px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(200,144,26,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 18vw, 160px);
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      line-height: 1;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .tagline {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(9px, 2vw, 11px);
+      letter-spacing: 0.35em;
+      color: var(--smoke);
+      margin-top: 10px;
+      text-transform: uppercase;
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--denim);
+      margin: 40px auto;
+      animation: fadeUp 0.8s 0.25s ease both;
+    }
+
+    .desc {
+      font-family: 'Special Elite', serif;
+      font-size: clamp(14px, 3vw, 17px);
+      color: var(--dust);
+      max-width: 480px;
+      line-height: 1.8;
+      animation: fadeUp 0.8s 0.35s ease both;
+      margin-bottom: 14px;
+    }
+
+    .desc--em {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(18px, 4vw, 24px);
+      letter-spacing: 0.08em;
+      color: var(--cream);
+    }
+
+    .desc--sign {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(9px, 2vw, 11px);
+      letter-spacing: 0.3em;
+      color: var(--smoke);
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 48px;
+      padding: 10px 22px;
+      border: 1px solid var(--denim);
+      border-radius: 3px;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--smoke);
+      text-transform: uppercase;
+      animation: fadeUp 0.8s 0.45s ease both;
+    }
+
+    /* Footer */
+    footer {
+      padding: 32px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(56,72,104,0.3);
+    }
+
+    footer nav {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 20px;
+    }
+
+    footer a {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--smoke);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--gold); }
+
+    footer p {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--denim);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="stripe"></div>
+
+  <main class="hero">
+    <div class="wordmark">RANDAJO</div>
+    <div class="divider"></div>
+    <p class="desc">C'è chi prende la strada più corta. E c'è chi prende quella giusta.</p>
+    <p class="desc">Navigazione moto che preferisce le curve alle autostrade. Un Passaporto da riempire con i timbri delle mete esplorate. Crew e Moto Club per chi non viaggia da solo. Un Garage dove la tua moto è molto più di un veicolo.</p>
+    <p class="desc">Tutto quello che serve a chi ha fatto della strada il suo habitat. Niente di più. RANDAJO è essenziale.</p>
+    <p class="desc desc--sign">Ride Your Way.</p>
+    <div class="badge">Prossimamente su App Store</div>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Termini di Servizio</a>
+      <a href="/cdn-cgi/l/email-protection#4e3d3b3e3e213c3a0e3c2f202a2f2421602f3e3e">Contatti</a>
+    </nav>
+    <p>&copy; 2026 Randajo App &mdash; randajo.app</p>
+  </footer>
+
+  <
