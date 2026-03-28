@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#171520">
+<title>RANDAJO LiveTracking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --midnight: #171520;
+    --ink: #1E1C28;
+    --denim: #2A2838;
+    --gold: #C8901A;
+    --cream: #F4ECD6;
+    --smoke: #8A8890;
+    --cherry: #B91C36;
+    --dust: #5A5862;
+  }
+  body {
+    background: var(--midnight);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+  }
+  #map { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+
+  /* ── Header ── */
+  .header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    padding: 12px;
+    padding-top: max(env(safe-area-inset-top, 12px), 12px);
+  }
+  .header-card {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(23,21,32,0.94);
+    border: 1px solid var(--denim);
+    border-radius: 12px;
+    padding: 10px 14px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .live-badge {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--cherry);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .live-label {
+    font-size: 10px; letter-spacing: 2px; color: var(--cherry);
+    font-weight: 600;
+  }
+  .ended-label { color: var(--smoke); }
+  .rider-name {
+    flex: 1; font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 1px; color: var(--cream);
+  }
+  .code-box {
+    background: var(--ink); border: 1px solid var(--denim);
+    border-radius: 4px; padding: 4px 8px;
+    font-size: 11px; letter-spacing: 2px; color: var(--gold);
+  }
+
+  /* ── Bottom bar ── */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+    background: rgba(23,21,32,0.96);
+    border-top: 1px solid var(--denim);
+    padding: 14px 16px;
+    padding-bottom: max(env(safe-area-inset-bottom, 16px), 16px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .stats-row {
+    display: flex; align-items: center;
+  }
+  .stat-item {
+    flex: 1; text-align: center;
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 1px; color: var(--gold);
+  }
+  .stat-val.cream { color: var(--cream); }
+  .stat-sub {
+    font-size: 8px; letter-spacing: 0.5px; color: var(--smoke);
+    margin-top: 2px;
+  }
+  .stat-div {
+    width: 1px; height: 28px; background: var(--denim);
+    flex-shrink: 0;
+  }
+  .dest-row {
+    text-align: center; border-top: 1px solid var(--denim);
+    padding-top: 8px; margin-top: 10px;
+  }
+  .dest-label { font-size: 8px; letter-spacing: 1.5px; color: var(--dust); }
+  .dest-name { font-size: 12px; color: var(--cream); margin-top: 2px; }
+
+  /* ── Center button ── */
+  .center-btn {
+    position: fixed; right: 16px; bottom: 140px; z-index: 10;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--ink); border: 1.5px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: opacity 0.2s;
+  }
+  .center-btn:hover { opacity: 0.8; }
+  .center-btn.hidden { display: none; }
+
+  /* ── Loading / Error ── */
+  .overlay-screen {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--midnight);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px;
+    padding: 32px;
+  }
+  .overlay-screen.transparent {
+    background: rgba(23,21,32,0.6);
+  }
+  .overlay-screen .icon { font-size: 48px; }
+  .overlay-screen .title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 2px; color: var(--cream);
+  }
+  .overlay-screen .subtitle {
+    font-size: 11px; color: var(--smoke); letter-spacing: 0.5px;
+    text-align: center; line-height: 1.6;
+  }
+  .ended-box {
+    background: var(--midnight); border: 1px solid var(--denim);
+    border-radius: 16px; padding: 32px; text-align: center;
+  }
+  .spinner {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 3px solid var(--denim); border-top-color: var(--gold);
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Code input screen ── */
+  .code-input-screen {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--midnight);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 20px;
+    padding: 32px;
+  }
+  .code-input-screen .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 4px; color: var(--gold);
+  }
+  .code-input-screen .prompt {
+    font-size: 12px; color: var(--smoke); letter-spacing: 1px;
+  }
+  .code-input {
+    width: 220px; padding: 14px 20px;
+    background: var(--ink); border: 1.5px solid var(--denim);
+    border-radius: 8px; color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 24px; letter-spacing: 8px; text-align: center;
+    text-transform: uppercase; outline: none;
+  }
+  .code-input:focus { border-color: var(--gold); }
+  .code-input::placeholder {
+    color: var(--dust); letter-spacing: 4px; font-size: 14px;
+  }
+  .code-submit {
+    padding: 12px 32px; border-radius: 8px;
+    background: transparent; border: 1.5px solid var(--gold);
+    color: var(--gold); font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 2px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .code-submit:hover { background: rgba(200,144,26,0.1); }
+
+  /* ── Rider marker ── */
+  .rider-marker {
+    width: 44px; height: 44px; position: relative;
+  }
+  .rider-arrow {
+    position: absolute; inset: 0;
+    transition: transform 0.5s ease;
+  }
+  .rider-dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--gold);
+    border: 2.5px solid var(--midnight);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: var(--midnight);
+    box-shadow: 0 0 12px rgba(200,144,26,0.6);
+  }
+  .rider-dot img {
+    width: 18px; height: 18px; border-radius: 50%;
+  }
+  .dest-marker {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--cherry); border: 2px solid var(--midnight);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 14px;
+    box-shadow: 0 2px 8px rgba(185,28,54,0.5);
+  }
+
+  /* ── Watermark ── */
+  .watermark {
+    position: fixed; bottom: 100px; left: 16px; z-index: 5;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px; letter-spacing: 3px; color: var(--cream);
+    opacity: 0.4; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Loading -->
+<div id="loading-screen" class="overlay-screen">
+  <div class="spinner"></div>
+  <div class="subtitle" style="letter-spacing:1.5px">CONNESSIONE...</div>
+</div>
+
+<!-- Code input (shown if no code in URL) -->
+<div id="code-screen" class="code-input-screen" style="display:none">
+  <div class="brand">RANDAJO</div>
+  <div style="font-size:28px">📡</div>
+  <div class="prompt">INSERISCI IL CODICE LIVETRACKING</div>
+  <input id="code-input" class="code-input" type="text" maxlength="6" placeholder="______" autocomplete="off" autofocus>
+  <button id="code-submit" class="code-submit" onclick="submitCode()">SEGUI</button>
+</div>
+
+<!-- Error -->
+<div id="error-screen" class="overlay-screen" style="display:none">
+  <div class="icon">📡</div>
+  <div class="title" id="error-title">Sessione non trovata</div>
+  <div class="subtitle" id="error-subtitle">Controlla il codice e riprova.</div>
+  <button class="code-submit" onclick="location.reload()">RIPROVA</button>
+</div>
+
+<!-- Ended overlay -->
+<div id="ended-overlay" class="overlay-screen transparent" style="display:none">
+  <div class="ended-box">
+    <div style="font-size:36px;margin-bottom:8px">🏁</div>
+    <div class="title">Navigazione terminata</div>
+    <div class="subtitle" id="ended-rider" style="margin-top:6px"></div>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="header" id="header" style="display:none">
+  <div class="header-card">
+    <div class="live-badge">
+      <div class="live-dot" id="live-dot"></div>
+      <span class="live-label" id="live-label">LIVE</span>
+    </div>
+    <div class="rider-name" id="rider-name">Rider</div>
+    <div class="code-box" id="header-code">------</div>
+  </div>
+</div>
+
+<!-- Center button -->
+<div class="center-btn hidden" id="center-btn" onclick="recenter()">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="3" stroke="#C8901A" stroke-width="1.5"/>
+    <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#C8901A" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="12" cy="12" r="7" stroke="#C8901A" stroke-width="1.5"/>
+  </svg>
+</div>
+
+<!-- Bottom bar -->
+<div class="bottom-bar" id="bottom-bar" style="display:none">
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-val" id="stat-speed">0</div>
+      <div class="stat-sub">km/h</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-val" id="stat-heading">—</div>
+      <div class="stat-sub">Direzione</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-val" id="stat-elapsed">0 min</div>
+      <div class="stat-sub">In sella</div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-val cream" id="stat-updated">—</div>
+      <div class="stat-sub">Aggiornato</div>
+    </div>
+  </div>
+  <div class="dest-row" id="dest-row" style="display:none">
+    <div class="dest-label">DESTINAZIONE</div>
+    <div class="dest-name" id="dest-name"></div>
+  </div>
+</div>
+
+<div class="watermark">RANDAJO</div>
+
+<script>
+// ─── Config ───────────────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://lgazjmtfzotphawcpsri.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYXpqbXRmem90cGhhd2Nwc3JpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwMDQ0ODIsImV4cCI6MjA4ODU4MDQ4Mn0.kOBWhCrYMnbwsdpPntIKnuR7qqhiHh8g4gGDJEPZ8lo';
+const MAPBOX_TOKEN = 'pk.eyJ1IjoidmVycmllbnRpc3RlIiwiYSI6ImNtbWk4aTZ0aTEwdTUycnM1cjBseTVlaHoifQ.IAt9ogJSNYPgCCEgWbsIdw';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+mapboxgl.accessToken = MAPBOX_TOKEN;
+
+let map, riderMarker, destMarker, session, autoFollow = true, tickTimer;
+
+// ─── Extract code from URL ────────────────────────────────────────────────────
+function getCodeFromURL() {
+  // Try path: /live/KR4T5N or /live/KR4T5N/
+  const parts = location.pathname.split('/').filter(Boolean);
+  const liveIdx = parts.indexOf('live');
+  if (liveIdx >= 0 && parts[liveIdx + 1]) {
+    const c = parts[liveIdx + 1].replace(/[^A-Z0-9]/gi, '');
+    if (c.length >= 4) return c.toUpperCase();
+  }
+  // Try query: ?code=KR4T5N
+  const params = new URLSearchParams(location.search);
+  const q = params.get('code');
+  if (q && q.length >= 4) return q.toUpperCase();
+  // Try hash: #KR4T5N
+  if (location.hash.length > 1) {
+    const h = location.hash.slice(1).replace(/[^A-Z0-9]/gi, '');
+    if (h.length >= 4) return h.toUpperCase();
+  }
+  return null;
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+const code = getCodeFromURL();
+if (code) {
+  loadSession(code);
+} else {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('code-screen').style.display = '';
+  document.getElementById('code-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitCode();
+  });
+}
+
+function submitCode() {
+  const input = document.getElementById('code-input').value.trim().toUpperCase();
+  if (input.length < 4) return;
+  document.getElementById('code-screen').style.display = 'none';
+  document.getElementById('loading-screen').style.display = '';
+  loadSession(input);
+}
+
+async function loadSession(sessionCode) {
+  const { data, error } = await sb
+    .from('live_sessions')
+    .select('*')
+    .eq('session_code', sessionCode)
+    .single();
+
+  if (error || !data) {
+    showError('Sessione non trovata', 'Controlla il codice e riprova.');
+    return;
+  }
+
+  session = data;
+  document.getElementById('loading-screen').style.display = 'none';
+
+  if (!data.is_active) {
+    initMap(data);
+    showEnded();
+    return;
+  }
+
+  initMap(data);
+  subscribe(data.id);
+
+  // Tick timer per aggiornare elapsed/lastUpdate
+  tickTimer = setInterval(updateTick, 5000);
+}
+
+function showError(title, subtitle) {
+  document.getElementById('loading-screen').style.display = 'none';
+  document.getElementById('error-title').textContent = title;
+  document.getElementById('error-subtitle').textContent = subtitle;
+  document.getElementById('error-screen').style.display = '';
+}
+
+function showEnded() {
+  document.getElementById('ended-overlay').style.display = '';
+  document.getElementById('ended-rider').textContent =
+    (session.rider_name || 'Il rider') + ' ha concluso il ride';
+  const dot = document.getElementById('live-dot');
+  dot.style.background = 'var(--smoke)';
+  dot.style.animation = 'none';
+  document.getElementById('live-label').textContent = 'TERMINATA';
+  document.getElementById('live-label').classList.add('ended-label');
+}
+
+// ─── Map ──────────────────────────────────────────────────────────────────────
+function initMap(data) {
+  const center = (data.last_lng && data.last_lat)
+    ? [data.last_lng, data.last_lat]
+    : [12.4964, 41.9028];
+
+  map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v11',
+    center, zoom: 14,
+    attributionControl: false,
+  });
+
+  map.on('load', () => {
+    // Trail line
+    map.addSource('trail', {
+      type: 'geojson',
+      data: trailGeoJSON(data.trail || []),
+    });
+    map.addLayer({
+      id: 'trail-bg', type: 'line', source: 'trail',
+      paint: { 'line-color': '#171520', 'line-width': 6 },
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+    });
+    map.addLayer({
+      id: 'trail-fg', type: 'line', source: 'trail',
+      paint: { 'line-color': '#C8901A', 'line-width': 3, 'line-opacity': 0.8 },
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+    });
+
+    // Rider marker
+    if (data.last_lat && data.last_lng) {
+      addRiderMarker(data);
+    }
+
+    // Destination marker
+    if (data.destination_lat && data.destination_lng) {
+      addDestMarker(data);
+    }
+  });
+
+  // Disable auto-follow on user interaction
+  map.on('dragstart', () => {
+    autoFollow = false;
+    document.getElementById('center-btn').classList.remove('hidden');
+  });
+
+  // Show UI
+  document.getElementById('header').style.display = '';
+  document.getElementById('bottom-bar').style.display = '';
+  document.getElementById('rider-name').textContent = data.rider_name || 'Rider';
+  document.getElementById('header-code').textContent = data.session_code;
+  updateStats(data);
+}
+
+function trailGeoJSON(trail) {
+  if (!trail || trail.length < 2) {
+    return { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } };
+  }
+  return {
+    type: 'Feature', properties: {},
+    geometry: { type: 'LineString', coordinates: trail.map(p => [p.lng, p.lat]) },
+  };
+}
+
+function addRiderMarker(data) {
+  const el = document.createElement('div');
+  el.className = 'rider-marker';
+  el.innerHTML = `
+    <svg class="rider-arrow" width="44" height="44" viewBox="0 0 44 44" fill="none"
+         style="transform:rotate(${data.last_heading || 0}deg)">
+      <path d="M22 4l7 16H15l7-16z" fill="#C8901A" opacity="0.7"/>
+    </svg>
+    <div class="rider-dot">
+      ${data.rider_avatar_url
+        ? `<img src="${data.rider_avatar_url}" alt="">`
+        : (data.rider_name || 'R')[0].toUpperCase()}
+    </div>
+  `;
+  riderMarker = new mapboxgl.Marker({ element: el, anchor: 'center' })
+    .setLngLat([data.last_lng, data.last_lat])
+    .addTo(map);
+}
+
+function addDestMarker(data) {
+  const el = document.createElement('div');
+  el.className = 'dest-marker';
+  el.textContent = '✦';
+  destMarker = new mapboxgl.Marker({ element: el, anchor: 'center' })
+    .setLngLat([data.destination_lng, data.destination_lat])
+    .addTo(map);
+}
+
+// ─── Real-time ────────────────────────────────────────────────────────────────
+function subscribe(sessionId) {
+  sb.channel(`live_${sessionId}`)
+    .on('postgres_changes', {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'live_sessions',
+      filter: `id=eq.${sessionId}`,
+    }, (payload) => {
+      session = payload.new;
+      onSessionUpdate(session);
+    })
+    .subscribe();
+}
+
+function onSessionUpdate(data) {
+  // Update rider position
+  if (data.last_lat && data.last_lng && riderMarker) {
+    riderMarker.setLngLat([data.last_lng, data.last_lat]);
+    // Update arrow rotation
+    const arrow = riderMarker.getElement().querySelector('.rider-arrow');
+    if (arrow) arrow.style.transform = `rotate(${data.last_heading || 0}deg)`;
+  } else if (data.last_lat && data.last_lng && !riderMarker) {
+    addRiderMarker(data);
+  }
+
+  // Update trail
+  if (map.getSource('trail')) {
+    map.getSource('trail').setData(trailGeoJSON(data.trail || []));
+  }
+
+  // Auto-follow
+  if (autoFollow && data.last_lat && data.last_lng) {
+    map.easeTo({ center: [data.last_lng, data.last_lat], duration: 1200 });
+  }
+
+  // Update stats
+  updateStats(data);
+
+  // Session ended
+  if (!data.is_active) {
+    showEnded();
+    if (tickTimer) clearInterval(tickTimer);
+  }
+}
+
+// ─── Stats ────────────────────────────────────────────────────────────────────
+function updateStats(data) {
+  const speed = data.last_speed ? Math.round(data.last_speed * 3.6) : 0;
+  document.getElementById('stat-speed').textContent = speed;
+
+  const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
+  const heading = data.last_heading
+    ? dirs[Math.round(data.last_heading / 45) % 8]
+    : '—';
+  document.getElementById('stat-heading').textContent = heading;
+
+  updateTick();
+
+  // Destination
+  if (data.destination_name) {
+    document.getElementById('dest-row').style.display = '';
+    document.getElementById('dest-name').textContent = data.destination_name;
+  }
+}
+
+function updateTick() {
+  if (!session) return;
+
+  // Elapsed
+  const sec = Math.floor((Date.now() - new Date(session.started_at).getTime()) / 1000);
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  document.getElementById('stat-elapsed').textContent =
+    h > 0 ? `${h}:${String(m).padStart(2, '0')}` : `${m} min`;
+
+  // Last update
+  const diff = Math.floor((Date.now() - new Date(session.last_updated_at).getTime()) / 1000);
+  let upd = 'adesso';
+  if (diff >= 5 && diff < 60) upd = `${diff}s fa`;
+  else if (diff >= 60 && diff < 3600) upd = `${Math.floor(diff / 60)} min fa`;
+  else if (diff >= 3600) upd = `${Math.floor(diff / 3600)}h fa`;
+  document.getElementById('stat-updated').textContent = upd;
+}
+
+// ─── Recenter ─────────────────────────────────────────────────────────────────
+function recenter() {
+  if (!session?.last_lat || !session?.last_lng) return;
+  autoFollow = true;
+  document.getElementById('center-btn').classList.add('hidden');
+  map.flyTo({ center: [session.last_lng, session.last_lat], zoom: 14, duration: 800 });
+}
+</script>
+</body>
+</html>
